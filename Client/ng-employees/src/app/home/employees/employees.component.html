@@ -1,0 +1,15 @@
+<hr> 
+<div class="flex-container" style="flex-direction: row;" *ngIf="employees | async as employeesData">  
+  <div class="card" style="width: 15rem; margin-left: 50px; justify-content: center;" *ngFor="let employee of employeesData;">
+    <img class="card-img-top" src="../../../assets/img/pngwing.com.png" alt="No Image">
+    <div class="card-body">
+      <h3 class="card-title" style="font-weight: bold">{{ employee.FullName }}
+      </h3>
+      <strong>City Address: </strong>
+      <p class="card-text" style="color: rgb(23, 223, 43)">{{ employee.Address }}</p> 
+      <strong>Department: </strong>
+        <span style="justify-content: center">{{ employee.Department }}</span>
+      <hr>
+    </div>
+  </div>
+</div>
