@@ -58,28 +58,28 @@ namespace EmployeeProjBackend.Services
             {
                 new EmployeeModel
                 {
-                    GuidID = Guid.NewGuid(),
+                    GuidID = Guid.Parse("147bccbb-314e-4a1d-9902-741fa34efd5d"),
                     FullName = "Osher Dror",
                     Address = "Beer Sheva, Israel",
                     Department = "Development"
                 },
                 new EmployeeModel
                 {
-                    GuidID = Guid.NewGuid(),
+                    GuidID = Guid.Parse("11476502-c196-447e-9565-b3a416c612f4"),
                     FullName = "John Doe",
                     Address = "New York NY",
                     Department = "Design"
                 },
                 new EmployeeModel
                 {
-                    GuidID = Guid.NewGuid(),
+                    GuidID = Guid.Parse("be6cacdc-3e30-4a54-98d9-1a6884443496"),
                     FullName = "Andrew Watson",
                     Address = "Chicago IL",
                     Department = "Development"
                 },
                 new EmployeeModel
                 {
-                    GuidID = Guid.NewGuid(),
+                    GuidID = Guid.Parse("30435bd3-15ff-4647-b1b4-3a333ce7a8bd"),
                     FullName = "Ronnie Dunn",
                     Address = "Miami, Florida",
                     Department = "Design"

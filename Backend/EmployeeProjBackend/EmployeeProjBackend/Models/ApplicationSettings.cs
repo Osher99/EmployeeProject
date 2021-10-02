@@ -9,5 +9,8 @@ namespace EmployeeProjBackend.Models
     {
         public string Jwt_Secret { get; set; }
         public string Client_URL { get; set; }
+        public string UserName { get; set; }
+        public string UserPassword { get; set; }
+        public string GuidID { get; set; }
     }
 }

@@ -27,14 +27,13 @@ namespace EmployeeProjBackend.Services
                 if (model == null)
                     return null;
 
-                model.GuidID = Guid.NewGuid();
                 IdentityOptions _options = new IdentityOptions();
 
                 var tokenDecsriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                     {
-                        new Claim("GuidID", model.GuidID.ToString())
+                        new Claim("GuidID", _appSettings.GuidID.ToString())
                     }),
                     Expires = DateTime.UtcNow.AddDays(1),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey

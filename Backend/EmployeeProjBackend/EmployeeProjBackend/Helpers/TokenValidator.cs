@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using EmployeeProjBackend.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -18,16 +20,35 @@ namespace EmployeeProjBackend.Authorization
         public TokenValidator(IConfiguration configuration)
         {
             Configuration = configuration;
-
         }
-        public static bool ValidateToken(string authToken)
+        public static bool ValidateToken(string authToken, string userGuidId)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var validationParameters = GetValidationParameters();
+            try
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var validationParameters = GetValidationParameters();
 
-            SecurityToken validatedToken;
-            IPrincipal principal = tokenHandler.ValidateToken(authToken, validationParameters, out validatedToken);
-            return true;
+                SecurityToken validatedToken;
+                IPrincipal principal = tokenHandler.ValidateToken(authToken, validationParameters, out validatedToken);
+
+                var handler = new JwtSecurityTokenHandler();
+               
+                // Validate GuidID
+                var jsonToken = handler.ReadToken(authToken);
+                var tokenS = jsonToken as JwtSecurityToken;
+
+                var GuidID = tokenS.Claims.First(i => i.Type == "GuidID").Value;
+                
+                if (GuidID.ToLower() == userGuidId.ToLower())
+                return true;
+
+                return false;
+            }
+
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
 

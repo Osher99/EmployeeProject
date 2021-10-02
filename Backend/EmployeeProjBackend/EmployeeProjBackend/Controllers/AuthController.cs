@@ -6,6 +6,7 @@ using EmployeeProjBackend.Interfaces;
 using EmployeeProjBackend.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace EmployeeProjBackend.Controllers
@@ -15,10 +16,12 @@ namespace EmployeeProjBackend.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly ApplicationSettings _appSettings;
 
-        public AuthController(IUserService userService)
+        public AuthController(IUserService userService, IOptions<ApplicationSettings> appSettings)
         {
             _userService = userService;
+            _appSettings = appSettings.Value;
         }
 
         [HttpPost]
@@ -28,7 +31,7 @@ namespace EmployeeProjBackend.Controllers
             if (user == null)
                 return BadRequest("Invalid request");
 
-            if (user.UserName.ToLower() == "admin" && user.Password.ToLower() == "adminsecret")
+            if (user.UserName.ToLower() == _appSettings.UserName && user.Password.ToLower() == _appSettings.UserPassword)
             {
                 var token = await _userService.Login(user);
 

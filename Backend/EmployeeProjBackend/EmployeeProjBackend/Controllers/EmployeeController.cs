@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using EmployeeProjBackend.Authorization;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 
 namespace EmployeeProjBackend.Controllers
@@ -18,15 +20,16 @@ namespace EmployeeProjBackend.Controllers
     public class EmployeeController : ControllerBase
     {
         #region Fields
-        //private const string EMAIL_VERIFIED_URI = "http://localhost:4200/user/login";
         private readonly IEmployeeService _employeeService;
+        private readonly ApplicationSettings _appSettings;
         #endregion
 
 
         #region Ctor
-        public EmployeeController(IEmployeeService employeeService)
+        public EmployeeController(IEmployeeService employeeService, IOptions<ApplicationSettings> appSettings)
         {
             _employeeService = employeeService;
+            _appSettings = appSettings.Value;
         }
         #endregion
 
@@ -37,8 +40,7 @@ namespace EmployeeProjBackend.Controllers
             try
             {
                 var accessToken = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", string.Empty);
-                var validToken = TokenValidator.ValidateToken(accessToken);
-
+                var validToken = TokenValidator.ValidateToken(accessToken, _appSettings.GuidID);
                 if (validToken) return await _employeeService.GetEmployees();
 
                 return null;
